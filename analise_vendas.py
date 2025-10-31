@@ -63,3 +63,15 @@ plt.xticks(rotation=0)
 plt.savefig('media_precos_por_produto.png')
 
 print("Gráfico salvo como 'media_precos_por_produto.png' no diretório.")
+# 9. AGRUPAMENTO AVANÇADO: Múltiplas Métricas por Grupo
+
+print("\nRelatório de Métricas Agregadas por Produto:")
+
+# Usamos .agg() para calcular múltiplas estatísticas de uma vez
+relatorio_agregado = df_vendas.groupby('Produto')['Preco'].agg(['mean', 'max', 'min', 'count'])
+
+# Renomear as colunas para melhor leitura do relatório
+relatorio_agregado.columns = ['Preço Médio', 'Preço Máximo', 'Preço Mínimo', 'Total de Itens']
+
+# Imprimir o relatório completo
+print(relatorio_agregado)

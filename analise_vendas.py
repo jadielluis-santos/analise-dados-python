@@ -48,3 +48,17 @@ media_por_produto = df_agrupado['Preco'].mean()
 
 # 3. Imprimir o resultado
 print(media_por_produto)
+# 9. VISUALIZAÇÃO DE DADOS (Matplotlib) - Salvando como arquivo
+
+print("\nGerando Gráfico de Barras dos Preços Médios...")
+
+# Cria um gráfico de barras a partir do DataFrame 'media_por_produto'
+media_por_produto.plot(kind='bar', title='Preço Médio por Produto')
+
+# Rotaciona os nomes dos produtos no eixo X para melhor visualização
+plt.xticks(rotation=0)
+
+# SALVA O GRÁFICO COMO IMAGEM (em vez de usar plt.show())
+plt.savefig('media_precos_por_produto.png')
+
+print("Gráfico salvo como 'media_precos_por_produto.png' no diretório.")

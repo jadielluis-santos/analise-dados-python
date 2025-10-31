@@ -75,3 +75,31 @@ relatorio_agregado.columns = ['Preço Médio', 'Preço Máximo', 'Preço Mínimo
 
 # Imprimir o relatório completo
 print(relatorio_agregado)
+# 10. VISUALIZAÇÃO AVANÇADA: Gráfico de Barras com Dados Agrupados
+
+print("\nGerando Gráfico de Barras com Base no Agrupamento:")
+
+# Usamos o DataFrame agrupado que já calculamos anteriormente
+# Se você ainda não o tem no mesmo script, use a variável 'media_por_produto' do passo anterior
+
+# Para garantir, vamos recalcular rapidamente a variável de agrupamento para o gráfico:
+relatorio_agregado = df_vendas.groupby('Produto')['Preco'].mean() 
+
+# Configuração do Gráfico
+relatorio_agregado.plot(
+    kind='bar', 
+    title='Média de Preço por Produto (Análise SQL via Python)',
+    ylabel='Preço Médio (R$)'
+)
+
+# Ajustes estéticos
+plt.xticks(rotation=45) # Girar os nomes para caberem melhor
+plt.tight_layout() # Ajusta margens
+
+# Salva o gráfico
+plt.savefig('media_precos_agrupada.png')
+
+print("Gráfico de média por produto salvo como 'media_precos_agrupada.png'")
+
+# Se você ainda quiser ver a janela pop-up (opcionalmente)
+# plt.show()

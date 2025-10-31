@@ -1,105 +1,69 @@
-# Este é um comentário. O Python o ignora.
+# Módulo de Análise de Dados: Python, Pandas e Matplotlib
 
-# 1. Importar a biblioteca Pandas (O padrão de mercado é chamar de 'pd')
+# 1. IMPORTAÇÕES
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# 2. Criar uma série de dados simples (uma lista)
+# 2. DADOS DE ENTRADA
 dados = {
     'Produto': ['Camisa', 'Calça', 'Sapato', 'Meia'],
     'Preco': [50.00, 120.00, 85.50, 10.00]
 }
 
-# 3. Criar um DataFrame (a tabela de dados do Pandas)
+# 3. CRIAÇÃO DO DATAFRAME
 df_vendas = pd.DataFrame(dados)
 
-# 4. Imprimir apenas a coluna 'Preco'
-print("\nPreços dos Produtos:")
-print(df_vendas['Preco'])
+# ==========================================================
+# 4. ANÁLISE BÁSICA E FILTRAGEM
+# ==========================================================
 
-# 5. Imprimir mais de uma coluna (usando uma lista de colunas)
-print("\nProduto e Preço:")
-print(df_vendas[['Produto', 'Preco']])
+print("--- 1. ANÁLISE ESTATÍSTICA BÁSICA ---")
 
-# 6. Média de Preço (Primeira análise estatística!)
-print("\nMédia de Preços:")
-print(df_vendas['Preco'].mean())
-# 7. FILTROS CONDICIONAIS
-print("\nProdutos com Preço Superior a R$80.00:")
+# Seleção de Coluna Única e Média
+print(f"Média de Preços Total: R${df_vendas['Preco'].mean():.2f}")
 
-# Cria uma "Máscara" Booleana (True/False)
-# A variável 'preco_alto' será True para preços > 80.00 e False para o restante
+# Filtro Condicional (Preços > R$80.00)
 preco_alto = df_vendas['Preco'] > 80.00
-
-# Aplica a máscara ao DataFrame original para mostrar apenas as linhas True
 df_filtrado = df_vendas[preco_alto]
-
-# Imprime o novo DataFrame filtrado
+print("\nProdutos com Preço Superior a R$80.00:")
 print(df_filtrado)
-# 8. AGRUPAMENTO DE DADOS COM .groupby()
 
-# Objetivo: Calcular a média de Preço por Produto.
-print("\nPreço Médio por Produto (Agrupamento):")
 
-# 1. Agrupar o DataFrame pela coluna 'Produto'
-df_agrupado = df_vendas.groupby('Produto')
+# ==========================================================
+# 5. AGRUPAMENTO AVANÇADO (Relatório de BI)
+# ==========================================================
 
-# 2. Aplicar a função de média (.mean()) à coluna 'Preco' dentro de cada grupo
-media_por_produto = df_agrupado['Preco'].mean()
+print("\n--- 2. RELATÓRIO DE MÉTRICAS POR PRODUTO (.groupby().agg()) ---")
 
-# 3. Imprimir o resultado
-print(media_por_produto)
-# 9. VISUALIZAÇÃO DE DADOS (Matplotlib) - Salvando como arquivo
-
-print("\nGerando Gráfico de Barras dos Preços Médios...")
-
-# Cria um gráfico de barras a partir do DataFrame 'media_por_produto'
-media_por_produto.plot(kind='bar', title='Preço Médio por Produto')
-
-# Rotaciona os nomes dos produtos no eixo X para melhor visualização
-plt.xticks(rotation=0)
-
-# SALVA O GRÁFICO COMO IMAGEM (em vez de usar plt.show())
-plt.savefig('media_precos_por_produto.png')
-
-print("Gráfico salvo como 'media_precos_por_produto.png' no diretório.")
-# 9. AGRUPAMENTO AVANÇADO: Múltiplas Métricas por Grupo
-
-print("\nRelatório de Métricas Agregadas por Produto:")
-
-# Usamos .agg() para calcular múltiplas estatísticas de uma vez
+# Calculamos múltiplas estatísticas para o relatório
 relatorio_agregado = df_vendas.groupby('Produto')['Preco'].agg(['mean', 'max', 'min', 'count'])
-
-# Renomear as colunas para melhor leitura do relatório
 relatorio_agregado.columns = ['Preço Médio', 'Preço Máximo', 'Preço Mínimo', 'Total de Itens']
 
-# Imprimir o relatório completo
+# Imprimir o relatório
 print(relatorio_agregado)
-# 10. VISUALIZAÇÃO AVANÇADA: Gráfico de Barras com Dados Agrupados
 
-print("\nGerando Gráfico de Barras com Base no Agrupamento:")
 
-# Usamos o DataFrame agrupado que já calculamos anteriormente
-# Se você ainda não o tem no mesmo script, use a variável 'media_por_produto' do passo anterior
+# ==========================================================
+# 6. VISUALIZAÇÃO DE DADOS (Matplotlib)
+# ==========================================================
 
-# Para garantir, vamos recalcular rapidamente a variável de agrupamento para o gráfico:
-relatorio_agregado = df_vendas.groupby('Produto')['Preco'].mean() 
+print("\n--- 3. VISUALIZAÇÕES SALVAS NO DIRETÓRIO ---")
 
-# Configuração do Gráfico
-relatorio_agregado.plot(
-    kind='bar', 
-    title='Média de Preço por Produto (Análise SQL via Python)',
-    ylabel='Preço Médio (R$)'
-)
-
-# Ajustes estéticos
-plt.xticks(rotation=45) # Girar os nomes para caberem melhor
-plt.tight_layout() # Ajusta margens
-
-# Salva o gráfico
+# 6.1 GRÁFICO 1: Média Simples (Como a última análise feita)
+plt.figure(figsize=(7, 5)) # Define o tamanho do gráfico
+relatorio_agregado['Preço Médio'].plot(kind='bar', title='Média de Preço por Produto')
+plt.xticks(rotation=0)
+plt.ylabel('Preço Médio (R$)')
+plt.tight_layout()
 plt.savefig('media_precos_agrupada.png')
+print("Gráfico 'media_precos_agrupada.png' salvo com sucesso.")
 
-print("Gráfico de média por produto salvo como 'media_precos_agrupada.png'")
 
-# Se você ainda quiser ver a janela pop-up (opcionalmente)
-# plt.show()
+# 6.2 GRÁFICO 2: Contagem de Itens
+plt.figure(figsize=(7, 5)) 
+relatorio_agregado['Total de Itens'].plot(kind='bar', title='Total de Itens Vendidos (Contagem)')
+plt.xticks(rotation=0)
+plt.ylabel('Contagem')
+plt.tight_layout()
+plt.savefig('contagem_itens_vendidos.png')
+print("Gráfico 'contagem_itens_vendidos.png' salvo com sucesso.")

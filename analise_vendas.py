@@ -2,6 +2,7 @@
 
 # 1. Importar a biblioteca Pandas (O padrão de mercado é chamar de 'pd')
 import pandas as pd
+import matplotlib.pyplot as plt
 
 # 2. Criar uma série de dados simples (uma lista)
 dados = {

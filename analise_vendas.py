@@ -12,5 +12,14 @@ dados = {
 # 3. Criar um DataFrame (a tabela de dados do Pandas)
 df_vendas = pd.DataFrame(dados)
 
-# 4. Imprimir a tabela inteira
-print(df_vendas)
+# 4. Imprimir apenas a coluna 'Preco'
+print("\nPreços dos Produtos:")
+print(df_vendas['Preco'])
+
+# 5. Imprimir mais de uma coluna (usando uma lista de colunas)
+print("\nProduto e Preço:")
+print(df_vendas[['Produto', 'Preco']])
+
+# 6. Média de Preço (Primeira análise estatística!)
+print("\nMédia de Preços:")
+print(df_vendas['Preco'].mean())
